@@ -69,7 +69,7 @@ function buildTable(data){
             <td>${data[i].userName}</td>
             <td>${data[i].registrationNumber}</td>
             <td>
-                <a href="#" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                <a href="#editUserModal" class="edit" onClick="getUser(${i})" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                 <a href="#" id="${i}" onClick="deleteUser(${i})" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
             </td>
         </tr>
@@ -117,25 +117,53 @@ function addUser(){
 }
 
 // Edit User fuction
-function editUser(){
+function getUser(i){
+
+    let user = users[i] ;
+    let ind = document.getElementById('index');
     let nom = document.getElementById('updateNom');
     let prenom = document.getElementById('updatePrenom');
     let username = document.getElementById('updateUsername');
     let matricule = document.getElementById('updateMatricule');
     let state = document.getElementById('Etat');
 
-    let data = {
-        id: id,
-        createdDate: creationDate,
-        status: "En validation",
-        firstName: prenom.value,
-        lastName: nom.value,
-        userName: username.value,
-        registrationNumber: matricule.value,
-    }
-    console.log(users.find(data.id));
 
+    ind.value = i;
+    nom.value = user.firstName;
+    prenom.value = user.lastName;
+    username.value = user.userName;
+    matricule.value = user.registrationNumber;
+    state.value = user.status;
     
+    
+
+}
+
+function editUser(){
+    
+
+    let ind = document.getElementById('index');
+    let user = users[ind] ;
+    let nom = document.getElementById('updateNom');
+    let prenom = document.getElementById('updatePrenom');
+    let username = document.getElementById('updateUsername');
+    let matricule = document.getElementById('updateMatricule');
+    let state = document.getElementById('Etat');
+
+    user = {
+        id : users[ind.value].id,
+        createdDate : users[ind.value].createdDate,
+        firstName : prenom.value,
+        lastName : nom.value,
+        userName : username.value,
+        registrationNumber : matricule.value,
+        status : state.value
+    }
+    users.splice(ind.value,1);
+    users.splice(ind, ind-1,user)
+
+    table.innerHTML = "";
+    buildTable(users);
 
 }
 
