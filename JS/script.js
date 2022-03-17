@@ -70,7 +70,7 @@ function buildTable(data){
             <td>${data[i].registrationNumber}</td>
             <td>
                 <a href="#" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                <a href="#deleteUserModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                <a href="#" id="${i}" onClick="deleteUser(${i})" class="delete"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
             </td>
         </tr>
         `;
@@ -82,6 +82,8 @@ function buildTable(data){
 
 // Add User function
 function addUser(){
+
+    // get the data from the inputs
     let currentDate = new Date;
     let id = Math.floor(Math.random() * 999999999)
     let nom = document.getElementById('addNom');
@@ -89,6 +91,38 @@ function addUser(){
     let username = document.getElementById('addUsername');
     let matricule = document.getElementById('addMatricule');
     let creationDate = currentDate;
+
+
+    // assemble the data in user
+    let data = {
+        id: id,
+        createdDate: creationDate,
+        status: "En validation",
+        firstName: prenom.value,
+        lastName: nom.value,
+        userName: username.value,
+        registrationNumber: matricule.value,
+    }
+
+    // add the user to the table
+    table.innerHTML = "";
+    users.push(data);
+    buildTable(users);
+
+    // empty the inputs
+    nom.value = "";
+    prenom.value = "";
+    username.value = "";
+    matricule.value = "";
+}
+
+// Edit User fuction
+function editUser(){
+    let nom = document.getElementById('updateNom');
+    let prenom = document.getElementById('updatePrenom');
+    let username = document.getElementById('updateUsername');
+    let matricule = document.getElementById('updateMatricule');
+    let state = document.getElementById('Etat');
 
     let data = {
         id: id,
@@ -98,26 +132,26 @@ function addUser(){
         lastName: nom.value,
         userName: username.value,
         registrationNumber: matricule.value,
-      }
+    }
+    console.log(users.find(data.id));
 
-    table.innerHTML = "";
-    users.push(data);
-    buildTable(users);
-
-    nom.value = "";
-    prenom.value = "";
-    username.value = "";
-    matricule.value = "";
-}
-
-// Edit User fuction
-function editUser(){
+    
 
 }
 
 // Delete User function
-function deleteUser(){
+function deleteUser(i){
+    
+    if (confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?") == true) {
+        table.innerHTML = "";
+        users.splice(i,1);
+        buildTable(users);
+    
+      } else {
+        console.log("Annulé");
+      }
 
+    
 }
 
 
