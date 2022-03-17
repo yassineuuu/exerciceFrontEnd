@@ -30,17 +30,27 @@ let users = [
     }
 ];
 
+let newUser = {
+    id: "345612789",
+    createdDate: "2021-01-06T00:00:00.000Z",
+    status: "En validation",
+    firstName: "yassine",
+    lastName: "MAKHLOUK",
+    userName: "YCN",
+    registrationNumber: "1995",
+  }
 
+// Table body
+var table = document.getElementById('usersTable');
 
 // Fill The Table function
 function buildTable(data){
     
 
-    let table = document.getElementById('usersTable');
+    
     var stat;
 
     for (let i = 0; i < data.length; i++) {
-        console.log(data.status);
         if (data[i].status === "Validé") {
             stat = "btn btn-success";
         }else if(data[i].status === "Rejeté"){
@@ -48,7 +58,7 @@ function buildTable(data){
         }else{
             stat = "btn btn-warning";
         }
-        const row = `
+        row = `
         <tr>
                             
             <td>${data[i].id}</td>
@@ -59,7 +69,7 @@ function buildTable(data){
             <td>${data[i].userName}</td>
             <td>${data[i].registrationNumber}</td>
             <td>
-                <a href="#editUserModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                <a href="#" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                 <a href="#deleteUserModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
             </td>
         </tr>
@@ -72,7 +82,32 @@ function buildTable(data){
 
 // Add User function
 function addUser(){
+    let currentDate = new Date;
+    let id = Math.floor(Math.random() * 999999999)
+    let nom = document.getElementById('addNom');
+    let prenom = document.getElementById('addPrenom');
+    let username = document.getElementById('addUsername');
+    let matricule = document.getElementById('addMatricule');
+    let creationDate = currentDate;
 
+    let data = {
+        id: id,
+        createdDate: creationDate,
+        status: "En validation",
+        firstName: prenom.value,
+        lastName: nom.value,
+        userName: username.value,
+        registrationNumber: matricule.value,
+      }
+
+    table.innerHTML = "";
+    users.push(data);
+    buildTable(users);
+
+    nom.value = "";
+    prenom.value = "";
+    username.value = "";
+    matricule.value = "";
 }
 
 // Edit User fuction
