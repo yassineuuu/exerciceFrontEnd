@@ -160,7 +160,7 @@ function editUser(){
         status : state.value
     }
     users.splice(ind.value,1);
-    users.splice(ind, ind-1,user)
+    users.splice(ind.value, ind-1,user)
 
     table.innerHTML = "";
     buildTable(users);
